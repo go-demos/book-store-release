@@ -5,19 +5,7 @@ Require JRE
 = ATTRIBUTES:
 ##
 [:h2][:version] # H2 Jar Version
-[:tomcat7][:user] # H2 User 
-[:tomcat7][:group] # H2 Group
-[:tomcat7][:target] # Prefix
-##
-#[:tomcat7][:port] # HTTP port
-#[:tomcat7][:ssl_port] # SSLed port
-#[:tomcat7][:ajp_port] # AJP port
-#[:tomcat7][:java_options] # JAVA_OPTS for daemon init
-#[:tomcat7][:use_security_manager]  # SecManager
-##
-#[:tomcat7][:home] # CATALINA HOME
-#[:tomcat7][:base] # BASE folder
-#[:tomcat7][:config_dir] # Tomcat config folder
-#[:tomcat7][:log_dir] # Logfile folder
-#= USAGE:
+[:h2][:user] # H2 User 
+[:h2][:group] # H2 Group
+[:h2][:target] # Prefix
 
