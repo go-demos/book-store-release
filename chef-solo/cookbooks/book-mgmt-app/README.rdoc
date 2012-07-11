@@ -1,0 +1,9 @@
+= DESCRIPTION:
+Deploys BookManager App to tomcat7 instance 
+= REQUIREMENTS:
+Require Tomcat7
+= ATTRIBUTES:
+##
+#[:tomcat7][:log_dir] # Logfile folder
+#= USAGE:
+
