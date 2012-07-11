@@ -1,0 +1,7 @@
+
+{
+  "run_list": [ 
+	"recipe[tomcat7]", 
+	"recipe[h2]" 
+	]
+}
