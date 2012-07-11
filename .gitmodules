@@ -1,0 +1,3 @@
+[submodule "chef-solo/cookbooks/java"]
+	path = chef-solo/cookbooks/java
+	url = https://github.com/opscode-cookbooks/java.git
