@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<project name="book-store-deployment" basedir="." default="deploy">
+
+    <property environment="env"/>
+
+    <condition property="tomcat.manager.host" value="${env.TOMCAT_MANAGER_HOST}" else="localhost">
+        <isset property="env.TOMCAT_MANAGER_URL"/>
+    </condition>
+
+    <condition property="tomcat.manager.port" value="${env.TOMCAT_MANAGER_PORT}" else="8080">
+        <isset property="env.TOMCAT_MANAGER_URL"/>
+    </condition>
+
+    <condition property="tomcat.manager.username" value="${env.TOMCAT_MANAGER_USERNAME}" else="admin">
+        <isset property="env.TOMCAT_MANAGER_USERNAME"/>
+    </condition>
+
+    <condition property="tomcat.manager.password" value="${env.TOMCAT_MANAGER_PASSWORD}" else="password">
+        <isset property="env.TOMCAT_MANAGER_PASSWORD"/>
+    </condition>
+
+    <condition property="catalina.home" value="${env.CATALINA_HOME}" else="/usr/local/apache-tomcat-7.0.27">
+        <isset property="env.CATALINA_HOME"/>
+    </condition>
+
+    <property name="context.path" value="${env.CONTEXT_PATH}" />
+    <property name="war.path" value="${env.WAR_PATH}" />
+
+    <property name="tomcat.manager.url" value="http://${tomcat.manager.host}:${tomcat.manager.port}/manager/text"/>
+
+    <property name="lib.dir" location="${basedir}/lib"/>
+    <path id="tomcat">
+        <fileset dir="${lib.dir}/tomcat" includes="*.jar"/>
+    </path>
+
+    <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask" classpathref="tomcat"/>
+    <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask" classpathref="tomcat"/>
+
+    <target name="ensure-tomcat-stopped">
+        <waitfor maxwait="20" maxwaitunit="second" checkevery="2" checkeveryunit="second" timeoutproperty="tomcat.started">
+            <not>
+                <http url="http://localhost:8080"/>
+            </not>
+        </waitfor>
+        <fail message="Looks like tomcat is still running." if="tomcat.started"/>
+    </target>
+
+    <target name="ensure-tomcat-started">
+        <waitfor maxwait="20" maxwaitunit="second" checkevery="2" checkeveryunit="second" timeoutproperty="tomcat.stopped">
+            <http url="http://localhost:8080"/>
+        </waitfor>
+        <fail message="Tomcat was not started." if="tomcat.stopped" />
+    </target>
+
+    <target name="execute-start">
+        <exec executable="/bin/bash" failonerror="false" failifexecutionfails="false">
+            <arg value="${catalina.home}/bin/startup.sh"/>
+        </exec>
+    </target>
+
+    <target name="execute-stop">
+        <exec executable="/bin/bash" failonerror="false" failifexecutionfails="false">
+            <arg value="${catalina.home}/bin/shutdown.sh"/>
+        </exec>
+    </target>
+
+    <target name="start-tomcat" depends="execute-start, ensure-tomcat-started"/>
+
+    <target name="stop-tomcat" depends="execute-stop, ensure-tomcat-stopped" />
+
+    <target name="deploy" description="Install web application">
+        <deploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}" path="${context.path}" war="${war.path}"/>
+    </target>
+
+    <target name="undeploy" description="Remove web application">
+        <undeploy url="${tomcat.manager.url}" username="${tomcat.manager.username}" password="${tomcat.manager.password}" path="${context.path}" failonerror="false" />
+    </target>
+</project>
