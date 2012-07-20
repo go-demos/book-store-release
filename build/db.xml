@@ -22,8 +22,7 @@
     <property name="db.url" value="jdbc:h2:tcp://${db.host}:${db.port}/${db.path}/${db.name}" />
 
     <property name="lib.dir" location="${basedir}/lib" />
-    <property name="target" location="${basedir}/target"/>
-    <property name="sql.dir" location="${target}/migrate" />
+    <property name="sql.dir" location="${env.MIGRATIONS_DIR}" />
 
     <property name="sql.schema.dir" location="${sql.dir}/schema" />
     <property name="sql.deltas.dir" location="${sql.dir}/deltas" />
