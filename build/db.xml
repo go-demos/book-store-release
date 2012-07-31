@@ -28,11 +28,6 @@
     <property name="sql.deltas.dir" location="${sql.dir}/deltas" />
     <property name="sql.dir.out" location="${sql.dir}/generated" />
 
-    <target name="init">
-        <delete dir="${target}" />
-        <mkdir dir="${target}" />
-    </target>
-
     <path id="db.classpath">
         <fileset dir="${lib.dir}">
             <include name="dbdeploy/*.jar" />
