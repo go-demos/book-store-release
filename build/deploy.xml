@@ -11,7 +11,7 @@
         <isset property="env.TOMCAT_MANAGER_URL"/>
     </condition>
 
-    <condition property="tomcat.manager.username" value="${env.TOMCAT_MANAGER_USERNAME}" else="manager">
+    <condition property="tomcat.manager.username" value="${env.TOMCAT_MANAGER_USERNAME}" else="admin">
         <isset property="env.TOMCAT_MANAGER_USERNAME"/>
     </condition>
 
